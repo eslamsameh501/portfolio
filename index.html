@@ -63,19 +63,25 @@ h1{font-size:clamp(2.3rem,10vw,4.2rem);letter-spacing:-.02em;color:#fff;text-sha
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;text-align:center}
 .sg b{display:block;font-size:clamp(2.6rem,12vw,4.5rem);line-height:1;color:var(--red);font-weight:800}
 .sg span{display:block;margin-top:8px;color:#f1f5f9;font-weight:600}
+.bd{display:inline-flex;align-items:center;gap:14px;min-width:270px;min-height:76px;margin-inline-end:16px;padding:10px 20px 10px 12px;border-radius:18px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;text-decoration:none;white-space:nowrap;transition:border-color .15s,background .15s}
+a.bd:hover{border-color:var(--cy);background:rgba(14,165,233,.14)}
+.av{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;background:#1e293b}
+span.av{display:grid;place-items:center;background:var(--cy);color:#04141f;font-weight:800;font-size:1.4rem;line-height:1}
+.bt{display:grid;gap:2px;text-align:start;flex:1}
+.bt b{font-size:1.125rem;line-height:1.2}
+.bt small{font-size:1rem;color:#cbd5e1;line-height:1.2}
+.bt small.lv{color:#67e8f9;font-weight:700}
+.go{flex:none;color:#67e8f9;font-size:1.25rem;margin-inline-start:6px}
+.bd.big{border-color:var(--red);background:rgba(229,62,62,.14)}
+.bd.big .av{background:#fff}
+.bd.big .bt small{color:#fecaca}
 .trust{margin-top:44px;text-align:center}
 .trust h3{font-size:1.125rem;color:#f1f5f9;margin-bottom:16px}
 .mq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.mt{display:flex;gap:12px;width:max-content;animation:mq 45s linear infinite}
+.mt{display:flex;gap:0;width:max-content;animation:mq 45s linear infinite}
 .mq:hover .mt{animation-play-state:paused}
 @keyframes mq{to{transform:translateX(-50%)}}
 .mq,.mt{direction:ltr!important}
-.bd{display:inline-flex;align-items:center;color:#fff;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);white-space:nowrap;font-weight:600}
-.av{width:24px;height:24px;border-radius:50%;object-fit:cover;flex:none;margin-inline-end:10px;background:#1e293b}
-span.av{display:grid;place-items:center;background:var(--cy);color:#04141f;font-weight:800;font-size:1rem;line-height:1}
-.bd.big .av{background:#fff}
-.bd.big{border-color:var(--red);background:rgba(229,62,62,.12)}
-.bd small{color:#fecaca;font-size:1rem;margin-inline-start:6px}
 /* services */
 .svc{background:var(--off)}
 section.svc:not(.about){background:linear-gradient(rgba(248,250,252,.88),rgba(248,250,252,.92)),url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat}
@@ -254,7 +260,8 @@ var W=[
 ];
 var T=[["ads","Commercials & ADs","إعلانات"],["creator","Creator Dubbing","دبلجة صنّاع المحتوى"],["anim","Animation & Series","أنيميشن ومسلسلات"],["doc","Documentary & Science","وثائقي وعلوم"]];
 var SV=[["Voice Acting (10+ Vocal Styles)","تمثيل صوتي (+10 أساليب)"],["Character Dubbing","دبلجة الشخصيات"],["Commercial Voiceover","تعليق صوتي إعلاني"],["Motion Graphics","موشن جرافيك"],["Audiobooks","كتب صوتية"],["Documentary","وثائقي"],["Educational Explainers","فيديوهات تعليمية"],["Sound Design & Audio Cleaning","تصميم صوت وتنقية"]];
-var BR=[["KSI (Lead Voice)", "https://unavatar.io/youtube/KSI"], ["Veritasium", "https://www.google.com/s2/favicons?domain=veritasium.com&sz=128"], ["Kai Cenat", "https://unavatar.io/youtube/KaiCenat"], ["Airrack", "https://unavatar.io/youtube/airrack"], ["Ruhi Çenet", "https://unavatar.io/youtube/RuhiCenet"], ["Stay Wild Reacts", "https://unavatar.io/youtube/StayWildReacts"], ["The Royalty Family", "https://unavatar.io/youtube/TheRoyaltyFamily"], ["SV2", "https://unavatar.io/youtube/SV2"], ["AJ Shabeel", "https://unavatar.io/youtube/AJShabeel"], ["John Nellis", "https://unavatar.io/youtube/JohnNellis"], ["Westen Champlin", "https://unavatar.io/youtube/WestenChamplin"], ["Forrest Galante", "https://unavatar.io/youtube/ForrestGalante"], ["Riggy (Toon Turf)", "https://unavatar.io/youtube/ToonTurf"], ["Studio Psycho", "https://unavatar.io/youtube/StudioPsycho"]];
+// [name, avatar, YouTube handle, lead voice?]
+var BR=[["KSI", "https://unavatar.io/youtube/KSI", "KSI", 1], ["Veritasium", "https://www.google.com/s2/favicons?domain=veritasium.com&sz=128", "veritasium", 0], ["Kai Cenat", "https://unavatar.io/youtube/KaiCenat", "KaiCenat", 0], ["Airrack", "https://unavatar.io/youtube/airrack", "airrack", 0], ["Ruhi Çenet", "https://unavatar.io/youtube/RuhiCenet", "RuhiCenet", 0], ["Stay Wild Reacts", "https://unavatar.io/youtube/StayWildReacts", "StayWildReacts", 1], ["The Royalty Family", "https://unavatar.io/youtube/TheRoyaltyFamily", "TheRoyaltyFamily", 1], ["SV2", "https://unavatar.io/youtube/SV2", "SV2", 0], ["AJ Shabeel", "https://unavatar.io/youtube/AJShabeel", "AJShabeel", 0], ["John Nellis", "https://unavatar.io/youtube/JohnNellis", "JohnNellis", 0], ["Westen Champlin", "https://unavatar.io/youtube/WestenChamplin", "WestenChamplin", 1], ["Forrest Galante", "https://unavatar.io/youtube/ForrestGalante", "ForrestGalante", 0], ["Riggy (Toon Turf)", "https://unavatar.io/youtube/ToonTurf", "ToonTurf", 1], ["Studio Psycho", "https://unavatar.io/youtube/StudioPsycho", "StudioPsycho", 1]];
 var TOY="https://www.google.com/s2/favicons?domain=toyota.com&sz=128";
 var ar=false, cur="ads", $=function(s){return document.querySelector(s)};
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
@@ -283,14 +290,20 @@ function tabs(){
   $("#grid").setAttribute("aria-labelledby","tab-"+cur);
 }
 function av(n,u){
-  var i=document.createElement("img");i.className="av";i.src=u;i.alt="";i.width=24;i.height=24;i.loading="lazy";i.referrerPolicy="no-referrer";
+  var i=document.createElement("img");i.className="av";i.src=u;i.alt="";i.width=52;i.height=52;i.loading="lazy";i.referrerPolicy="no-referrer";
   i.onerror=function(){var f=el("span","av",n.trim().charAt(0).toUpperCase());f.setAttribute("aria-hidden","true");if(i.parentNode)i.parentNode.replaceChild(f,i)};
   return i}
+function card(tag,n,u,sub,lead,href,copy){
+  var d=el(tag,"bd");d.appendChild(av(n,u));
+  var t=el("span","bt");t.appendChild(el("b","",n));t.appendChild(el("small",lead?"lv":"",sub));d.appendChild(t);
+  if(href){d.href=href;d.target="_blank";d.rel="noopener";d.setAttribute("aria-label",n+" — "+(ar?"قناة يوتيوب":"YouTube channel"));var g=el("span","go","\u2197");g.setAttribute("aria-hidden","true");d.appendChild(g);if(copy)d.tabIndex=-1}
+  if(copy)d.setAttribute("aria-hidden","true");
+  return d}
 function strip(){
   var m=$("#mt");m.textContent="";
   for(var k=0;k<4;k++){
-    var d=el("span","bd big");d.appendChild(av("Toyota",TOY));d.appendChild(document.createTextNode("Toyota"));d.appendChild(el("small","",ar?"(الصوت الرسمي للإعلان)":"(Official Commercial Voice)"));if(k)d.setAttribute("aria-hidden","true");m.appendChild(d);
-    BR.forEach(function(b){var x=el("span","bd");x.appendChild(av(b[0],b[1]));x.appendChild(document.createTextNode(b[0]));if(k)x.setAttribute("aria-hidden","true");m.appendChild(x)});
+    var d=card("span","Toyota",TOY,ar?"الصوت الرسمي للإعلان":"Official Commercial Voice",0,null,k);d.classList.add("big");m.appendChild(d);
+    BR.forEach(function(b){m.appendChild(card("a",b[0],b[1],b[3]?(ar?"صوت رئيسي":"Lead Voice"):(ar?"صانع محتوى":"Creator"),b[3],"https://www.youtube.com/@"+b[2],k))});
   }
 }
 function tagsR(){var t=$("#tags");t.textContent="";SV.forEach(function(s){t.appendChild(el("li","",L(s)))})}
