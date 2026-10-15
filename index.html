@@ -59,7 +59,7 @@ h1{font-size:clamp(2.3rem,10vw,4.2rem);letter-spacing:-.02em;color:#fff;text-sha
 .chip{position:static;z-index:2;padding:8px 14px;border-radius:999px;background:rgba(11,19,32,.88);border:1px solid rgba(14,165,233,.5);color:#fff;font-weight:600;font-size:1rem;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 /* stats */
-.stats{color:#fff;background:var(--navy2);padding-block:48px 28px}
+.stats{color:#fff;background:linear-gradient(rgba(11,19,32,.9),rgba(10,17,24,.95)),radial-gradient(circle at 12px 12px,rgba(14,165,233,.28) 0 5px,transparent 6px) 0 0/72px 120px,repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 72px),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 24px),var(--navy2);padding-block:48px 28px}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;text-align:center}
 .sg b{display:block;font-size:clamp(2.6rem,12vw,4.5rem);line-height:1;color:var(--red);font-weight:800}
 .sg span{display:block;margin-top:8px;color:#f1f5f9;font-weight:600}
@@ -69,12 +69,16 @@ h1{font-size:clamp(2.3rem,10vw,4.2rem);letter-spacing:-.02em;color:#fff;text-sha
 .mt{display:flex;gap:12px;width:max-content;animation:mq 45s linear infinite}
 .mq:hover .mt{animation-play-state:paused}
 @keyframes mq{to{transform:translateX(-50%)}}
-html[dir=rtl] .mt{animation-direction:reverse}
-.bd{color:#fff;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);white-space:nowrap;font-weight:600}
+.mq,.mt{direction:ltr!important}
+.bd{display:inline-flex;align-items:center;color:#fff;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);white-space:nowrap;font-weight:600}
+.av{width:24px;height:24px;border-radius:50%;object-fit:cover;flex:none;margin-inline-end:10px;background:#1e293b}
+span.av{display:grid;place-items:center;background:var(--cy);color:#04141f;font-weight:800;font-size:1rem;line-height:1}
+.bd.big .av{background:#fff}
 .bd.big{border-color:var(--red);background:rgba(229,62,62,.12)}
 .bd small{color:#fecaca;font-size:1rem;margin-inline-start:6px}
 /* services */
 .svc{background:var(--off)}
+section.svc:not(.about){background:linear-gradient(rgba(248,250,252,.88),rgba(248,250,252,.92)),url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat}
 .tags{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 32px}
 .tags li{list-style:none;padding:10px 16px;border-radius:999px;background:#fff;border:1px solid #cbd5e1;font-weight:600}
 .gear{background:var(--navy);color:#fff;border-radius:20px;padding:26px;border:1px solid rgba(14,165,233,.4);box-shadow:0 0 40px rgba(14,165,233,.15)}
@@ -242,23 +246,23 @@ var W=[
 ["creator",Y+"CqIMF0M-XrU&audio_track=ar","The Royalty Family – Our Son's DREAM Birthday Surprise",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
 ["creator",Y+"rag_tPxv858&audio_track=ar","Westen Champlin – I Supercharged My 1968 Dodge Charger",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
 ["creator",Y+"u0Yk3s12j84&audio_track=ar","John Nellis – Haaland Surprises His Biggest Fan",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["anim",Y+"JIlPtQ_vx0A&audio_track=ar","Toon Turf: Pilot – Riggy the Rabbit Monkey",["90% of Male Voices","90% من الأصوات الذكورية"],[["Cartoon","كرتوني"]]],
+["anim",Y+"JIlPtQ_vx0A&audio_track=ar","Toon Turf: Pilot – Riggy the Rabbit Monkey",["Animation","أنيميشن"],[["Cartoon","كرتوني"]]],
 ["anim",Y+"uZC9t3OTu_c&audio_track=ar","HEATHENS (Pilot) – Studio Psycho",["Series Dubbing","دبلجة مسلسل"],[["Character","شخصيات"]]],
 ["doc",Y+"aoag03mSuXQ&audio_track=ar","Veritasium – The Internet Was Weeks Away From Disaster",["Creator Dubbing","دبلجة صانع محتوى"],[["Science","علمي"]]],
 ["doc",Y+"Zh_nsA0-7js&audio_track=ar","Forrest Galante – Why No Bird, Fish or Mammal Will Cross this Invisible Line",["Creator Dubbing","دبلجة صانع محتوى"],[["Documentary","وثائقي"]]],
-["doc","https://youtu.be/2ET4VYOpFdY","Documentary Voiceover Sample 2",["Voiceover","تعليق صوتي"],[["Documentary","وثائقي"]]],
-["doc","https://youtu.be/F_0WOviX5DU","Documentary Voiceover Sample 3",["Voiceover","تعليق صوتي"],[["Documentary","وثائقي"]]]
+["doc","https://youtu.be/2ET4VYOpFdY","Documentary Voiceover Sample 2",["Voiceover","تعليق صوتي"],[["Documentary","وثائقي"]]]
 ];
-var T=[["all","All","الكل"],["ads","Commercials & ADs","إعلانات"],["creator","Creator Dubbing","دبلجة صنّاع المحتوى"],["anim","Animation & Series","أنيميشن ومسلسلات"],["doc","Documentary & Science","وثائقي وعلوم"]];
+var T=[["ads","Commercials & ADs","إعلانات"],["creator","Creator Dubbing","دبلجة صنّاع المحتوى"],["anim","Animation & Series","أنيميشن ومسلسلات"],["doc","Documentary & Science","وثائقي وعلوم"]];
 var SV=[["Voice Acting (10+ Vocal Styles)","تمثيل صوتي (+10 أساليب)"],["Character Dubbing","دبلجة الشخصيات"],["Commercial Voiceover","تعليق صوتي إعلاني"],["Motion Graphics","موشن جرافيك"],["Audiobooks","كتب صوتية"],["Documentary","وثائقي"],["Educational Explainers","فيديوهات تعليمية"],["Sound Design & Audio Cleaning","تصميم صوت وتنقية"]];
-var BR=["KSI (Lead Voice)","Veritasium","Kai Cenat","Airrack","Ruhi Çenet","Stay Wild Reacts","The Royalty Family","SV2","AJ Shabeel","John Nellis","Westen Champlin","Forrest Galante","Riggy (Toon Turf)","Studio Psycho"];
-var ar=false, cur="all", $=function(s){return document.querySelector(s)};
+var BR=[["KSI (Lead Voice)", "https://unavatar.io/youtube/KSI"], ["Veritasium", "https://www.google.com/s2/favicons?domain=veritasium.com&sz=128"], ["Kai Cenat", "https://unavatar.io/youtube/KaiCenat"], ["Airrack", "https://unavatar.io/youtube/airrack"], ["Ruhi Çenet", "https://unavatar.io/youtube/RuhiCenet"], ["Stay Wild Reacts", "https://unavatar.io/youtube/StayWildReacts"], ["The Royalty Family", "https://unavatar.io/youtube/TheRoyaltyFamily"], ["SV2", "https://unavatar.io/youtube/SV2"], ["AJ Shabeel", "https://unavatar.io/youtube/AJShabeel"], ["John Nellis", "https://unavatar.io/youtube/JohnNellis"], ["Westen Champlin", "https://unavatar.io/youtube/WestenChamplin"], ["Forrest Galante", "https://unavatar.io/youtube/ForrestGalante"], ["Riggy (Toon Turf)", "https://unavatar.io/youtube/ToonTurf"], ["Studio Psycho", "https://unavatar.io/youtube/StudioPsycho"]];
+var TOY="https://www.google.com/s2/favicons?domain=toyota.com&sz=128";
+var ar=false, cur="ads", $=function(s){return document.querySelector(s)};
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function L(p){return ar?p[1]:p[0]}
-function vid(u){var m=u.match(/(?:v=|youtu\.be\/)([\w-]{11})/);return m?m[1]:null}
+function vid(u){var m=u.match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/);return m?m[1]:null}
 function render(){
   var g=$("#grid");g.textContent="";
-  W.filter(function(w){return cur=="all"||w[0]==cur}).forEach(function(w){
+  W.filter(function(w){return w[0]==cur}).forEach(function(w){
     var c=el("article","card"),th=el("div","th"),id=vid(w[1]);
     if(id){var i=el("img");i.src="https://img.youtube.com/vi/"+id+"/hqdefault.jpg";i.alt="";i.loading="lazy";th.appendChild(i)}
     else{var wv=el("div","wv");wv.setAttribute("aria-hidden","true");[40,70,50,90,60,100,45,80,55,35].forEach(function(h){var b=el("i");b.style.height=h+"%";wv.appendChild(b)});th.appendChild(wv)}
@@ -278,11 +282,15 @@ function tabs(){
     t.appendChild(b)});
   $("#grid").setAttribute("aria-labelledby","tab-"+cur);
 }
+function av(n,u){
+  var i=document.createElement("img");i.className="av";i.src=u;i.alt="";i.width=24;i.height=24;i.loading="lazy";i.referrerPolicy="no-referrer";
+  i.onerror=function(){var f=el("span","av",n.trim().charAt(0).toUpperCase());f.setAttribute("aria-hidden","true");if(i.parentNode)i.parentNode.replaceChild(f,i)};
+  return i}
 function strip(){
   var m=$("#mt");m.textContent="";
-  for(var k=0;k<2;k++){
-    var d=el("span","bd big");d.appendChild(document.createTextNode("Toyota"));d.appendChild(el("small","",ar?"(الصوت الرسمي للإعلان)":"(Official Commercial Voice)"));if(k)d.setAttribute("aria-hidden","true");m.appendChild(d);
-    BR.forEach(function(n){var s=el("span","bd",n);if(k)s.setAttribute("aria-hidden","true");m.appendChild(s)});
+  for(var k=0;k<4;k++){
+    var d=el("span","bd big");d.appendChild(av("Toyota",TOY));d.appendChild(document.createTextNode("Toyota"));d.appendChild(el("small","",ar?"(الصوت الرسمي للإعلان)":"(Official Commercial Voice)"));if(k)d.setAttribute("aria-hidden","true");m.appendChild(d);
+    BR.forEach(function(b){var x=el("span","bd");x.appendChild(av(b[0],b[1]));x.appendChild(document.createTextNode(b[0]));if(k)x.setAttribute("aria-hidden","true");m.appendChild(x)});
   }
 }
 function tagsR(){var t=$("#tags");t.textContent="";SV.forEach(function(s){t.appendChild(el("li","",L(s)))})}
