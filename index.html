@@ -294,16 +294,16 @@ function av(n,u){
   var i=document.createElement("img");i.className="av";i.src=u;i.alt="";i.width=52;i.height=52;i.loading="lazy";i.referrerPolicy="no-referrer";
   i.onerror=function(){var f=el("span","av",n.trim().charAt(0).toUpperCase());f.setAttribute("aria-hidden","true");if(i.parentNode)i.parentNode.replaceChild(f,i)};
   return i}
-function card(tag,n,u,sub,lead,href,copy){
+function card(tag,n,u,sub,lead,href,copy,isVid){
   var d=el(tag,"bd");d.appendChild(av(n,u));
   var t=el("span","bt");t.appendChild(el("b","",n));t.appendChild(el("small",lead?"lv":"",sub));d.appendChild(t);
-  if(href){d.href=href;d.target="_blank";d.rel="noopener";d.setAttribute("aria-label",n+" — "+(ar?"قناة يوتيوب":"YouTube channel"));var g=el("span","go","\u2197");g.setAttribute("aria-hidden","true");d.appendChild(g);if(copy)d.tabIndex=-1}
+  if(href){d.href=href;d.target="_blank";d.rel="noopener";d.setAttribute("aria-label",n+" — "+(isVid?(ar?"شاهد الفيديو":"Watch video"):(ar?"قناة يوتيوب":"YouTube channel")));if(isVid)d.onclick=function(e){e.preventDefault();openV(["ads",href,"Toyota Oman – All-New Land Cruiser FJ"],d)};var g=el("span","go",isVid?"\u25B6":"\u2197");g.setAttribute("aria-hidden","true");d.appendChild(g);if(copy)d.tabIndex=-1}
   if(copy)d.setAttribute("aria-hidden","true");
   return d}
 function strip(){
   var m=$("#mt");m.textContent="";
   for(var k=0;k<4;k++){
-    var d=card("span","Toyota",TOY,ar?"الصوت الرسمي للإعلان":"Official Commercial Voice",0,null,k);d.classList.add("big");m.appendChild(d);
+    var d=card("a","Toyota",TOY,ar?"الصوت الرسمي للإعلان":"Official Commercial Voice",0,"https://www.youtube.com/watch?v=aT4uLH6K7_k",k,1);d.classList.add("big");m.appendChild(d);
     BR.forEach(function(b){m.appendChild(card("a",b[0],b[1],b[3]?(ar?"صوت رئيسي":"Lead Voice"):(ar?"صانع محتوى":"Creator"),b[3],"https://www.youtube.com/@"+b[2],k))});
   }
 }
