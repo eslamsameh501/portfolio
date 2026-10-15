@@ -39,7 +39,7 @@ header{direction:ltr!important;position:sticky;top:0;z-index:20;background:rgba(
 .hd .btn{min-height:44px;padding:0 16px}
 /* hero */
 .hero{color:#fff;position:relative;overflow:hidden;padding-block:40px 56px;background:radial-gradient(60% 50% at 70% 30%,rgba(14,165,233,.22),transparent 70%),repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 36px),var(--navy)}
-.hero .wrap{display:grid;gap:32px;align-items:center}
+.hero .wrap{position:relative;z-index:1;display:grid;gap:32px;align-items:center}
 .pill{display:inline-block;padding:8px 16px;border:1px solid rgba(14,165,233,.6);border-radius:999px;color:#bae6fd;font-weight:600;margin-bottom:18px}
 h1{font-size:clamp(2.3rem,10vw,4.2rem);letter-spacing:-.02em;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.5)}
 .gr{background:linear-gradient(90deg,#38bdf8,#67e8f9);-webkit-background-clip:text;background-clip:text;color:#67e8f9;-webkit-text-fill-color:transparent;text-shadow:none}
@@ -47,13 +47,10 @@ h1{font-size:clamp(2.3rem,10vw,4.2rem);letter-spacing:-.02em;color:#fff;text-sha
 .ctas{display:flex;flex-wrap:wrap;gap:12px}
 .pt{position:relative;width:min(100%,380px);aspect-ratio:1;margin-inline:auto}
 .ptw{width:min(100%,380px);margin-inline:auto;display:flex;flex-direction:column;align-items:center;gap:14px}.ptw .pt{width:100%}
-.eqt{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;margin:4px auto 0;padding:0 20px;border-radius:999px;border:1px solid rgba(14,165,233,.6);background:rgba(11,19,32,.8);color:#fff;font-weight:600;cursor:pointer}
-.eqt[aria-pressed=true]{background:var(--cy);color:#04141f}
-.eq{display:none;z-index:0;position:absolute;inset:auto 0 8%;gap:6px;align-items:flex-end;justify-content:center;height:70%}
-.eq i{flex:1;max-width:14px;border-radius:6px;background:linear-gradient(var(--cy),rgba(14,165,233,.1));height:30%;animation:eq 1.1s ease-in-out infinite alternate}
-.eq i:nth-child(3n){animation-duration:.8s}.eq i:nth-child(3n+1){animation-duration:1.4s}.eq i:nth-child(odd){animation-delay:-.4s}
-@keyframes eq{to{height:95%}}
-.eqon .eq{display:flex}
+.eq{display:flex;position:absolute;inset:0;z-index:0;align-items:flex-end;justify-content:space-between;opacity:.5;pointer-events:none}
+.eq i{flex:none;width:10px;border-radius:6px 6px 0 0;background:linear-gradient(var(--cy),rgba(14,165,233,.08));height:var(--lo,20%);animation:eq var(--d,1.2s) ease-in-out infinite alternate}
+
+@keyframes eq{from{height:var(--lo,20%)}to{height:var(--hi,90%)}}
 .pt img{z-index:1;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;
 -webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 46%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 50% 46%,#000 55%,transparent 100%)}
 .ph{display:none;position:absolute;inset:18%;border-radius:50%;place-items:center;font-size:4rem;font-weight:800;color:#67e8f9;background:radial-gradient(circle,rgba(14,165,233,.35),rgba(14,165,233,.05) 70%);box-shadow:0 0 60px rgba(14,165,233,.35)}
@@ -119,6 +116,16 @@ textarea{min-height:120px;resize:vertical}
 .ml{display:inline-flex;align-items:center;min-height:44px;margin-top:16px;color:#67e8f9;font-weight:600}
 footer{background:#060b10;color:#f1f5f9;padding-block:32px calc(32px + env(safe-area-inset-bottom));text-align:center}
 footer a{display:inline-flex;align-items:center;min-height:44px;margin:0 10px}
+/* modal */
+.vm{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(5,9,14,.88);padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+.vm.on{display:flex}
+.vb{width:min(100%,960px);color:#fff}
+.vh{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.vh h3{flex:1;font-size:1.05rem;line-height:1.3;color:#fff}
+.vx{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer}
+.vf{position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.vf iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vl{display:inline-flex;align-items:center;min-height:44px;margin-top:10px;color:#67e8f9;font-weight:600}
 @media(min-width:760px){
 .hero .wrap{grid-template-columns:1.1fr .9fr}
 .sg{grid-template-columns:repeat(4,1fr)}
@@ -137,7 +144,8 @@ section{padding-block:80px}}
 </div></header>
 
 <main>
-<section class="hero" style="padding-block:40px 56px"><div class="wrap">
+<section class="hero" style="padding-block:40px 56px">
+<div class="eq" aria-hidden="true"></div><div class="wrap">
 <div>
 <span class="pill" data-ar="ممثل صوت، مراجع جودة ومهندس صوت">Voice Actor, Quality Reviewer &amp; Sound Engineer</span>
 <h1><span data-ar="أصوات تُقنع،">Voices that</span> <span class="gr" data-ar="وتحكي">land</span><span data-ar=" كل قصة.">, in every story.</span></h1>
@@ -147,12 +155,10 @@ section{padding-block:80px}}
 <div class="ptw">
 <span class="chip c1" data-ar="صوت الشخصية الرئيسية">Lead Character Voice</span>
 <div class="pt">
-<div class="eq" aria-hidden="true"></div>
 <div class="ph" aria-hidden="true">ES</div>
 <img src="./profile.png" alt="Eslam Sayed in his vocal booth" width="760" height="760" onerror="this.parentNode.classList.add('noimg');this.remove()">
 </div>
 <div class="chips"><span class="chip c2" data-ar="+10 نبرات صوتية">10+ Vocal Tones</span><span class="chip c3" data-ar="تسجيل من كابينة صوتية">Vocal Booth Recorded</span></div>
-<button class="eqt" id="eqt" type="button" aria-pressed="false"></button>
 </div>
 </div></section>
 
@@ -218,9 +224,12 @@ section{padding-block:80px}}
 <p style="margin-top:8px">© <span id="y"></span> <span data-ar="اسلام سيد">Eslam Sayed</span></p>
 </div></footer>
 
+<div class="vm" id="vm" role="dialog" aria-modal="true" aria-labelledby="vt" hidden>
+<div class="vb"><div class="vh"><h3 id="vt"></h3><button class="vx" id="vx" type="button" aria-label="Close">&times;</button></div>
+<div class="vf" id="vf"></div><a class="vl" id="vl" href="#" target="_blank" rel="noopener">Open on YouTube</a></div></div>
 <script>
 // ===== PASTE VIDEO LINKS HERE =====
-var EBI_VIDEO_URL="", KOSHARY_VIDEO_URL="", MANDOLIN_VIDEO_URL="", EASY_ORDERS_VIDEO_URL="";
+var EBI_VIDEO_URL="https://youtu.be/Yx_UHZeRwNY", KOSHARY_VIDEO_URL="https://www.youtube.com/watch?v=rx0phevCxl4", MANDOLIN_VIDEO_URL="https://youtu.be/0jfWBDaq_Wg", EASY_ORDERS_VIDEO_URL="https://youtu.be/E3HsLlEE5iU";
 var Y="https://www.youtube.com/watch?v=";
 var W=[
 ["ads",Y+"aT4uLH6K7_k","Toyota Oman – All-New Land Cruiser FJ",["Official Commercial","إعلان رسمي"],[["Authoritative","رسمي وواثق"]]],
@@ -229,14 +238,12 @@ var W=[
 ["ads",MANDOLIN_VIDEO_URL,"Mandolin Chocolate",["Commercial Spec","نموذج إعلاني"],[["Upbeat & casual","حماسي وعفوي"]]],
 ["ads",EASY_ORDERS_VIDEO_URL,"Easy Orders App",["Commercial Spec","نموذج إعلاني"],[["Fast Egyptian, energetic","عامية سريعة وحماسية"]]],
 ["creator",Y+"a-iReT6fwVI&audio_track=ar","KSI (Ft. MrBeast) – Make Us Laugh, Win $1,000",["Lead Voice","صوت رئيسي"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["creator",Y+"JIOLqIsNvTU&audio_track=ar","Stay Wild Reacts – TikToks Only Kids Will Understand",["Lead Voice","صوت رئيسي"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
+["creator",Y+"JlOLqIsNvTU&audio_track=ar","Stay Wild Reacts – TikToks Only Kids Will Understand",["Lead Voice","صوت رئيسي"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
 ["creator",Y+"CqIMF0M-XrU&audio_track=ar","The Royalty Family – Our Son's DREAM Birthday Surprise",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
 ["creator",Y+"rag_tPxv858&audio_track=ar","Westen Champlin – I Supercharged My 1968 Dodge Charger",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
 ["creator",Y+"u0Yk3s12j84&audio_track=ar","John Nellis – Haaland Surprises His Biggest Fan",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["anim",Y+"JIIPtQ_vx0A&audio_track=ar","Toon Turf: Pilot – Riggy the Rabbit Monkey",["90% of Male Voices","90% من الأصوات الذكورية"],[["Cartoon","كرتوني"]]],
+["anim",Y+"JIlPtQ_vx0A&audio_track=ar","Toon Turf: Pilot – Riggy the Rabbit Monkey",["90% of Male Voices","90% من الأصوات الذكورية"],[["Cartoon","كرتوني"]]],
 ["anim",Y+"uZC9t3OTu_c&audio_track=ar","HEATHENS (Pilot) – Studio Psycho",["Series Dubbing","دبلجة مسلسل"],[["Character","شخصيات"]]],
-["anim","https://drive.google.com/file/d/1Wv4A0ivG0iO2-53VEsLkMJJXQkq_Dbq1/view?usp=drive_link","Korean Series Dubbing – Lead Roles | دوبلاج مسلسلات كوري",["Lead Roles","أدوار رئيسية"],[["Drama","درامي"]]],
-["anim","https://drive.google.com/file/d/189Ith8TbiKfHffvU5m1vyg6kOkTWJmka/view?usp=drive_link","Classical Arabic Action & Documentary Reel | ريل أكشن مطعم بوثائقي",["Showreel","ريل"],[["Classical Arabic","فصحى"],["Action","أكشن"]]],
 ["doc",Y+"aoag03mSuXQ&audio_track=ar","Veritasium – The Internet Was Weeks Away From Disaster",["Creator Dubbing","دبلجة صانع محتوى"],[["Science","علمي"]]],
 ["doc",Y+"Zh_nsA0-7js&audio_track=ar","Forrest Galante – Why No Bird, Fish or Mammal Will Cross this Invisible Line",["Creator Dubbing","دبلجة صانع محتوى"],[["Documentary","وثائقي"]]],
 ["doc","https://youtu.be/2ET4VYOpFdY","Documentary Voiceover Sample 2",["Voiceover","تعليق صوتي"],[["Documentary","وثائقي"]]],
@@ -256,7 +263,7 @@ function render(){
     if(id){var i=el("img");i.src="https://img.youtube.com/vi/"+id+"/hqdefault.jpg";i.alt="";i.loading="lazy";th.appendChild(i)}
     else{var wv=el("div","wv");wv.setAttribute("aria-hidden","true");[40,70,50,90,60,100,45,80,55,35].forEach(function(h){var b=el("i");b.style.height=h+"%";wv.appendChild(b)});th.appendChild(wv)}
     var a=el("a","play");a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z"/></svg>';
-    if(w[1]){a.href=w[1];a.target="_blank";a.rel="noopener";a.setAttribute("aria-label",(ar?"تشغيل: ":"Play: ")+w[2])}
+    if(w[1]){a.href=w[1];a.setAttribute("aria-label",(ar?"تشغيل: ":"Play: ")+w[2]);a.onclick=function(e){e.preventDefault();openV(w,a)}}
     else{a.setAttribute("aria-disabled","true");a.setAttribute("aria-label",(ar?"الرابط قريباً: ":"Link coming soon: ")+w[2])}
     th.appendChild(a);c.appendChild(th);
     var b=el("div","cb");b.appendChild(el("span","bg",L(w[3])));b.appendChild(el("h3","",w[2]));
@@ -286,16 +293,35 @@ function setLang(a){
   tabs();render();strip();tagsR();
 }
 document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.dataset.l=="ar")}});
-var eq=$(".eq");for(var i=0;i<22;i++){var b=document.createElement("i");b.style.animationDelay=(-Math.random()*1.2)+"s";eq.appendChild(b)}
+function bars(){var e=$(".eq"),n=Math.max(20,Math.floor((window.innerWidth-16)/22));if(e.children.length==n)return;e.textContent="";
+  for(var i=0;i<n;i++){var b=document.createElement("i"),env=.5+.5*Math.sin(i/3.3)*Math.cos(i/9.1),r=Math.random();
+    var hi=Math.min(100,22+78*(.25+.75*env)*(.35+.65*r)*(r>.93?1.25:1)),lo=6+hi*.35*Math.random();
+    b.style.setProperty("--hi",hi.toFixed(0)+"%");b.style.setProperty("--lo",lo.toFixed(0)+"%");
+    b.style.setProperty("--d",(.7+Math.random()*1.6).toFixed(2)+"s");b.style.animationDelay=(-(i*.09+Math.random()*.9)).toFixed(2)+"s";e.appendChild(b)}}
+bars();window.addEventListener("resize",bars);
 $("#y").textContent=new Date().getFullYear();
 $("#f").onsubmit=function(e){e.preventDefault();
   var p=$("#p"),o=p.options[p.selectedIndex].value;
   var t="Hi Eslam, I'm "+$("#n").value.trim()+".\nProject: "+o+"\n"+$("#m").value.trim();
   window.open("https://wa.me/201125553080?text="+encodeURIComponent(t),"_blank","noopener")};
-var eqOn=true;$(".pt").classList.add("eqon");
-function eqLabel(){var b=$("#eqt");b.setAttribute("aria-pressed",eqOn);b.textContent=(ar?"أشرطة الصوت: ":"Sound bars: ")+(eqOn?(ar?"تشغيل":"On"):(ar?"إيقاف":"Off"))}
-$("#eqt").onclick=function(){eqOn=!eqOn;$(".pt").classList.toggle("eqon",eqOn);eqLabel()};
-var _sl=setLang;setLang=function(a){_sl(a);eqLabel()};
+var lastF=null;
+function openV(w,btn){
+  var id=vid(w[1]);if(!id){window.open(w[1],"_blank","noopener");return}
+  lastF=btn;var m=$("#vm"),f=$("#vf");f.textContent="";
+  var i=document.createElement("iframe");i.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&playsinline=1";
+  i.title=w[2];i.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";i.allowFullscreen=true;f.appendChild(i);
+  $("#vt").textContent=w[2];$("#vl").href=w[1];$("#vl").textContent=ar?"افتح على يوتيوب":"Open on YouTube";$("#vx").setAttribute("aria-label",ar?"إغلاق":"Close");
+  m.hidden=false;m.classList.add("on");document.body.style.overflow="hidden";$("#vx").focus();
+}
+function closeV(){var m=$("#vm");m.classList.remove("on");m.hidden=true;$("#vf").textContent="";document.body.style.overflow="";if(lastF)lastF.focus()}
+$("#vx").onclick=closeV;
+$("#vm").onclick=function(e){if(e.target==this)closeV()};
+document.addEventListener("keydown",function(e){
+  if(!$("#vm").classList.contains("on"))return;
+  if(e.key=="Escape"){closeV();return}
+  if(e.key=="Tab"){var f=[$("#vx"),$("#vl")],a=document.activeElement;
+    if(e.shiftKey&&a==f[0]){e.preventDefault();f[1].focus()}else if(!e.shiftKey&&a==f[1]){e.preventDefault();f[0].focus()}else if(f.indexOf(a)<0){e.preventDefault();f[0].focus()}}
+});
 setLang(false);
 </script>
 </body>
