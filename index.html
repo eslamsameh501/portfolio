@@ -40,7 +40,12 @@ h2{font-size:clamp(1.7rem,6vw,2.5rem);margin-bottom:12px}
 /* header */
 header{width:100%;max-width:100%;direction:ltr!important;position:sticky;top:0;z-index:20;background:rgba(10,17,24,.92);backdrop-filter:blur(10px);color:#fff;padding-top:env(safe-area-inset-top);border-bottom:1px solid rgba(255,255,255,.08)}
 .hd{direction:ltr!important;display:flex;align-items:center;gap:12px;min-height:64px}
-.logo{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--navy2);border:1px solid rgba(14,165,233,.5);box-shadow:0 0 16px rgba(14,165,233,.4);font-weight:800;color:var(--cy)}
+.logo{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--navy2);border:1px solid rgba(14,165,233,.5);box-shadow:0 0 16px rgba(14,165,233,.4);font-weight:800;color:var(--cy)}
+.logo{overflow:hidden;padding:0}
+.logo-img{display:block;width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center top}
+.logo-fb{display:none}
+.logo.noimg{border-radius:50%}
+.logo.noimg .logo-fb{display:block}
 .nm{font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lang{display:flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;overflow:hidden}
 .lang button{min-width:44px;min-height:44px;background:none;border:0;color:#fff;cursor:pointer;font-weight:700}
@@ -122,7 +127,8 @@ html[dir=rtl] .play svg{transform:scaleX(-1);margin:0 3px 0 0}
 .play[aria-disabled=true]{background:#64748b;pointer-events:none}
 .cb{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
 .bg{align-self:flex-start;padding:4px 12px;border-radius:999px;background:#e0f2fe;color:#075985;font-weight:700}
-.cb h3{font-size:1.1rem}
+.cb h3{font-size:1.1rem;line-height:1.55;text-align:start;overflow-wrap:anywhere}
+html[lang=en] .cb h3,html[lang=en] .vh h3{font-family:var(--ar)}
 .vt{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
 .vt span{padding:3px 10px;border-radius:8px;background:var(--off);border:1px solid #e2e8f0;color:var(--mut)}
 /* about */
@@ -161,7 +167,7 @@ section{padding-block:80px}}
 </head>
 <body>
 <header><div class="wrap hd">
-<span class="logo" aria-hidden="true">IS</span>
+<span class="logo" id="logo"><img src="./profile.png" class="logo-img" alt="Eslam Sayed" width="44" height="44" onerror="this.parentNode.classList.add('noimg');this.remove()"><span class="logo-fb" aria-hidden="true">IS</span></span>
 <span class="nm" data-ar="اسلام سيد">Eslam Sayed</span>
 <div class="lang" role="group" aria-label="Language"><button type="button" data-l="en" aria-pressed="true">EN</button><button type="button" data-l="ar" aria-pressed="false">AR</button></div>
 <a class="btn btn-p" href="#book" data-ar="احجز الآن">Book now</a>
@@ -253,25 +259,22 @@ section{padding-block:80px}}
 <div class="vb"><div class="vh"><h3 id="vt"></h3><button class="vx" id="vx" type="button" aria-label="Close">&times;</button></div>
 <div class="vf" id="vf"></div><a class="vl" id="vl" href="#" target="_blank" rel="noopener">Open on YouTube</a></div></div>
 <script>
-// ===== PASTE VIDEO LINKS HERE =====
-var EBI_VIDEO_URL="https://youtu.be/Yx_UHZeRwNY", KOSHARY_VIDEO_URL="https://www.youtube.com/shorts/rX0phevCxI4", MANDOLIN_VIDEO_URL="https://youtu.be/0jfWBDaq_Wg", EASY_ORDERS_VIDEO_URL="https://www.youtube.com/watch?v=E3HsLIEE5iU";
-var Y="https://www.youtube.com/watch?v=";
+// ===== PORTFOLIO (14 videos) =====
 var W=[
-["ads",Y+"aT4uLH6K7_k","Toyota Oman – All-New Land Cruiser FJ",["Official Commercial","إعلان رسمي"],[["Authoritative","رسمي وواثق"]]],
-["ads",EBI_VIDEO_URL,"EBI Egyptian Banking Institute",["Commercial Spec","نموذج إعلاني"],[["Deep & calm","عميق وهادئ"]]],
-["ads",KOSHARY_VIDEO_URL,"Koshary El Tahrir",["Commercial Spec","نموذج إعلاني"],[["Energetic & formal","حماسي ورسمي"]]],
-["ads",MANDOLIN_VIDEO_URL,"Mandolin Chocolate",["Commercial Spec","نموذج إعلاني"],[["Upbeat & casual","حماسي وعفوي"]]],
-["ads",EASY_ORDERS_VIDEO_URL,"Easy Orders App",["Commercial Spec","نموذج إعلاني"],[["Fast Egyptian, energetic","عامية سريعة وحماسية"]]],
-["creator",Y+"a-iReT6fwVI&audio_track=ar","KSI (Ft. MrBeast) – Make Us Laugh, Win $1,000",["Lead Voice","صوت رئيسي"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["creator",Y+"JlOLqIsNvTU&audio_track=ar","Stay Wild Reacts – TikToks Only Kids Will Understand",["Lead Voice","صوت رئيسي"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["creator",Y+"CqIMF0M-XrU&audio_track=ar","The Royalty Family – Our Son's DREAM Birthday Surprise",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["creator",Y+"rag_tPxv858&audio_track=ar","Westen Champlin – I Supercharged My 1968 Dodge Charger",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["creator",Y+"u0Yk3s12j84&audio_track=ar","John Nellis – Haaland Surprises His Biggest Fan",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic track","المسار العربي الرئيسي"]]],
-["anim",Y+"JIlPtQ_vx0A&audio_track=ar","Toon Turf: Pilot – Riggy the Rabbit Monkey",["Animation","أنيميشن"],[["Cartoon","كرتوني"]]],
-["anim",Y+"uZC9t3OTu_c&audio_track=ar","HEATHENS (Pilot) – Studio Psycho",["Series Dubbing","دبلجة مسلسل"],[["Character","شخصيات"]]],
-["doc",Y+"aoag03mSuXQ&audio_track=ar","Veritasium – The Internet Was Weeks Away From Disaster",["Creator Dubbing","دبلجة صانع محتوى"],[["Science","علمي"]]],
-["doc",Y+"Zh_nsA0-7js&audio_track=ar","Forrest Galante – Why No Bird, Fish or Mammal Will Cross this Invisible Line",["Creator Dubbing","دبلجة صانع محتوى"],[["Documentary","وثائقي"]]],
-["doc","https://youtu.be/2ET4VYOpFdY","Documentary Voiceover Sample 2",["Voiceover","تعليق صوتي"],[["Documentary","وثائقي"]]]
+["ads","https://www.youtube.com/watch?v=aT4uLH6K7_k","نقدم لكم الجديدة كلياً لاند كروزر إف جيه اداء حماسي فخم",["Official Commercial","إعلان رسمي"],[["Authoritative","رسمي وواثق"]]],
+["ads","https://youtu.be/0jfWBDaq_Wg","تجربة اداء لاعلان ماندولين اداء كوميدي",["Commercial Spec","نموذج إعلاني"],[["Upbeat & Comedy","حماسي وكوميدي"]]],
+["ads","https://youtu.be/Yx_UHZeRwNY","ebi تجربة اداء (اداء عميق و مؤثر )",["Commercial Spec","نموذج إعلاني"],[["Deep & Emotional","عميق ومؤثر"]]],
+["ads","https://youtu.be/E3HsLIEE5iU","تجربة اداء easy orders اداء اعلاني تفصيلي",["Commercial Spec","نموذج إعلاني"],[["Fast Egyptian","عامية سريعة"]]],
+["ads","https://youtu.be/NJ8qZnMGU5M","من قلب مصر بدأ طعم الحكاية (كشري التحرير) غير رسمي اداء رسمي دافئ",["Commercial Spec","نموذج إعلاني"],[["Warm & Formal","رسمي ودافئ"]]],
+["creator","https://youtu.be/1SyKE7oFY98","ksi : أضحكنا، واربح 1,000 دولار (Ft. MrBeast)",["Lead Voice","صوت رئيسي"],[["Lead Arabic Track","المسار العربي الرئيسي"]]],
+["creator","https://youtu.be/pe5dIbtNhps","westen champlin : لقد قمت بشحن سيارتي دودج تشارجر موديل 1968....هل ستبقى على قيد الحياة؟",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic Track","المسار العربي الرئيسي"]]],
+["creator","https://youtu.be/deUlzDNmcag","the royalty family : مفاجأة عيد الميلاد التي حلم بها ابننا!",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic Track","المسار العربي الرئيسي"]]],
+["creator","https://youtu.be/AzJQTvsM30c","john nellis : إرلينغ هالاند يفاجئ أكبر معجب له",["Creator Dubbing","دبلجة صانع محتوى"],[["Lead Arabic Track","المسار العربي الرئيسي"]]],
+["creator","https://youtu.be/sKGxCHVYAEo","stay wild reacts : مقاطع تيك توك لا يفهمها سوى الأطفال!",["Lead Voice","صوت رئيسي"],[["Lead Arabic Track","المسار العربي الرئيسي"]]],
+["anim","https://youtu.be/MUnnfChNrlk","riggy : تون تِرف: الحلقة الأولى",["Animation","أنيميشن"],[["Cartoon & Dubbing","كرتوني ودبلجة"]]],
+["anim","https://youtu.be/viqacPifHtI","studio psycho : أبطال ولكن... (الحلقة الأولى)",["Series Dubbing","دبلجة مسلسل"],[["Character Dubbing","دبلجة شخصيات"]]],
+["doc","https://youtu.be/TrCjgxcYg1c","veritasium : داخل حوض اختبار السفن التابع للبحرية",["Science & Tech","علوم وتكنولوجيا"],[["Documentary","وثائقي"]]],
+["doc","https://youtu.be/O1vrRNmTZkY","forrest galante : لمَ لا يعبر أي طير أو سمكة أو حيوان ثديي هذا الخط الخفي",["Nature & Science","طبيعة وعلوم"],[["Documentary","وثائقي"]]]
 ];
 var T=[["ads","Commercials & ADs","إعلانات"],["creator","Creator Dubbing","دبلجة صنّاع المحتوى"],["anim","Animation & Series","أنيميشن ومسلسلات"],["doc","Documentary & Science","وثائقي وعلوم"]];
 var SV=[["Voice Acting (10+ Vocal Styles)","تمثيل صوتي (+10 أساليب)"],["Character Dubbing","دبلجة الشخصيات"],["Commercial Voiceover","تعليق صوتي إعلاني"],["Motion Graphics","موشن جرافيك"],["Audiobooks","كتب صوتية"],["Documentary","وثائقي"],["Educational Explainers","فيديوهات تعليمية"],["Sound Design & Audio Cleaning","تصميم صوت وتنقية"]];
@@ -281,18 +284,18 @@ var TOY="https://www.google.com/s2/favicons?domain=toyota.com&sz=128";
 var ar=false, cur="ads", $=function(s){return document.querySelector(s)};
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function L(p){return ar?p[1]:p[0]}
-function vid(u){var m=u.match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/);return m?m[1]:null}
+function vid(u){var m=String(u||"").match(/(?:[?&]v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/);return m?m[1]:null}
 function render(){
   var g=$("#grid");g.textContent="";
   W.filter(function(w){return w[0]==cur}).forEach(function(w){
     var c=el("article","card"),th=el("div","th"),id=vid(w[1]);
-    if(id){var i=el("img");i.src="https://img.youtube.com/vi/"+id+"/hqdefault.jpg";i.alt="";i.loading="lazy";th.appendChild(i)}
+    if(id){var i=el("img");i.src="https://i.ytimg.com/vi/"+id+"/hqdefault.jpg";i.alt="";i.loading="lazy";i.referrerPolicy="no-referrer";i.onerror=function(){i.onerror=null;i.src="https://img.youtube.com/vi/"+id+"/hqdefault.jpg"};th.appendChild(i)}
     else{var wv=el("div","wv");wv.setAttribute("aria-hidden","true");[40,70,50,90,60,100,45,80,55,35].forEach(function(h){var b=el("i");b.style.height=h+"%";wv.appendChild(b)});th.appendChild(wv)}
     var a=el("a","play");a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z"/></svg>';
     if(w[1]){a.href=w[1];a.setAttribute("aria-label",(ar?"تشغيل: ":"Play: ")+w[2]);a.onclick=function(e){e.preventDefault();openV(w,a)}}
     else{a.setAttribute("aria-disabled","true");a.setAttribute("aria-label",(ar?"الرابط قريباً: ":"Link coming soon: ")+w[2])}
     th.appendChild(a);c.appendChild(th);
-    var b=el("div","cb");b.appendChild(el("span","bg",L(w[3])));b.appendChild(el("h3","",w[2]));
+    var b=el("div","cb");b.appendChild(el("span","bg",L(w[3])));var h3=el("h3","",w[2]);h3.dir="rtl";b.appendChild(h3);
     var v=el("div","vt");w[4].forEach(function(t){v.appendChild(el("span","",L(t)))});b.appendChild(v);c.appendChild(b);g.appendChild(c)});
 }
 function tabs(){
@@ -311,7 +314,7 @@ function av(n,u){
 function card(tag,n,u,sub,lead,href,copy,isVid){
   var d=el(tag,"bd");d.appendChild(av(n,u));
   var t=el("span","bt");t.appendChild(el("b","",n));t.appendChild(el("small",lead?"lv":"",sub));d.appendChild(t);
-  if(href){d.href=href;d.target="_blank";d.rel="noopener";d.setAttribute("aria-label",n+" — "+(isVid?(ar?"شاهد الفيديو":"Watch video"):(ar?"قناة يوتيوب":"YouTube channel")));if(isVid)d.onclick=function(e){e.preventDefault();openV(["ads",href,"Toyota Oman – All-New Land Cruiser FJ"],d)};var g=el("span","go",isVid?"\u25B6":"\u2197");g.setAttribute("aria-hidden","true");d.appendChild(g);if(copy)d.tabIndex=-1}
+  if(href){d.href=href;d.target="_blank";d.rel="noopener";d.setAttribute("aria-label",n+" — "+(isVid?(ar?"شاهد الفيديو":"Watch video"):(ar?"قناة يوتيوب":"YouTube channel")));if(isVid)d.onclick=function(e){e.preventDefault();openV(["ads",href,"نقدم لكم الجديدة كلياً لاند كروزر إف جيه اداء حماسي فخم"],d)};var g=el("span","go",isVid?"\u25B6":"\u2197");g.setAttribute("aria-hidden","true");d.appendChild(g);if(copy)d.tabIndex=-1}
   if(copy)d.setAttribute("aria-hidden","true");
   return d}
 function strip(){
@@ -346,7 +349,7 @@ function openV(w,btn){
   lastF=btn;var m=$("#vm"),f=$("#vf");f.textContent="";
   var i=document.createElement("iframe");i.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&playsinline=1";
   i.title=w[2];i.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";i.allowFullscreen=true;f.appendChild(i);
-  $("#vt").textContent=w[2];$("#vl").href=w[1];$("#vl").textContent=ar?"افتح على يوتيوب":"Open on YouTube";$("#vx").setAttribute("aria-label",ar?"إغلاق":"Close");
+  $("#vt").textContent=w[2];$("#vt").dir="rtl";$("#vl").href=w[1];$("#vl").textContent=ar?"افتح على يوتيوب":"Open on YouTube";$("#vx").setAttribute("aria-label",ar?"إغلاق":"Close");
   m.hidden=false;m.classList.add("on");document.body.style.overflow="hidden";$("#vx").focus();
 }
 function closeV(){var m=$("#vm");m.classList.remove("on");m.hidden=true;$("#vf").textContent="";document.body.style.overflow="";if(lastF)lastF.focus()}
