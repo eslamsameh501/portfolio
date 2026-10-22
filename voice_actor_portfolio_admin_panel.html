@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لوحة التحكم — إسلام سيد (Eslam Sayed Admin)</title>
+<meta name="theme-color" content="#0a1118">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1118;
+  --navy2: #0b1320;
+  --card-bg: #111c2d;
+  --cy: #0ea5e9;
+  --cy2: #38bdf8;
+  --red: #e53e3e;
+  --green: #22c55e;
+  --ink: #f8fafc;
+  --mut: #94a3b8;
+  --border: rgba(255, 255, 255, 0.12);
+  --font-ar: 'Cairo', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ar);
+  background: var(--navy);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Toast Notifications */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--navy2);
+  color: #fff;
+  border: 1px solid var(--cy);
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  font-weight: 600;
+  animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast.success { border-color: var(--green); }
+.toast.danger { border-color: var(--red); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+
+/* Login Modal Gate */
+#login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 17, 24, 0.96);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.login-box {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  padding: 36px 28px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  text-align: center;
+}
+.login-box h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  color: var(--cy2);
+}
+.login-box p {
+  color: var(--mut);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: right;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field label {
+  font-size: 0.85rem;
+  color: var(--mut);
+  font-weight: 600;
+}
+.input-ctrl {
+  background: #060b10;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-ctrl:focus {
+  border-color: var(--cy);
+}
+.btn {
+  background: var(--cy);
+  color: #04141f;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn:hover { background: var(--cy2); }
+.btn:active { transform: scale(0.98); }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #dc2626; }
+.btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid var(--border); }
+.btn-secondary:hover { background: rgba(255,255,255,0.18); }
+
+/* Dashboard Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+aside {
+  width: 260px;
+  background: var(--navy2);
+  border-left: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-shrink: 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.brand-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--cy);
+}
+.brand-info h3 { font-size: 1rem; color: #fff; }
+.brand-info span { font-size: 0.75rem; color: var(--cy2); }
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--mut);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: right;
+}
+.nav-item:hover, .nav-item.active {
+  background: rgba(14, 165, 233, 0.15);
+  color: var(--cy2);
+}
+
+main.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  max-width: 1200px;
+}
+.page-header {
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-header h1 { font-size: 1.8rem; font-weight: 800; }
+.page-header p { color: var(--mut); font-size: 0.9rem; }
+
+/* Panels & Cards */
+.panel { display: none; }
+.panel.active { display: block; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.card-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.card-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: var(--cy2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Portfolio Video Item styling */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.v-card {
+  background: #080f17;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.v-thumb {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #000;
+}
+.v-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.v-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.v-title { font-weight: 700; font-size: 0.95rem; line-height: 1.4; color: #fff; }
+.v-badge {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: rgba(14, 165, 233, 0.2);
+  color: var(--cy2);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.v-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.v-tag {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--mut);
+}
+.v-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.v-actions button {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+/* Modal styling */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal.on { display: flex; }
+.modal-content {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Category Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.data-table th, .data-table td {
+  padding: 12px 16px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.data-table th { color: var(--mut); font-size: 0.85rem; font-weight: 700; }
+
+/* Code Output Box */
+textarea.code-box {
+  width: 100%;
+  min-height: 220px;
+  background: #04080c;
+  color: #38bdf8;
+  font-family: monospace;
+  font-size: 0.85rem;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  direction: ltr;
+  text-align: left;
+}
+
+@media (max-width: 850px) {
+  .app-container { flex-direction: column; }
+  aside { width: 100%; border-left: none; border-bottom: 1px solid var(--border); }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<!-- Login Modal Gate -->
+<div id="login-modal">
+  <div class="login-box">
+    <h2>تسجيل الدخول للوحة التحكم</h2>
+    <p>قم بتقديم بيانات الاعتماد للمتابعة</p>
+    <form class="login-form" id="login-form">
+      <div class="field">
+        <label>اسم المستخدم</label>
+        <input type="text" id="user-input" class="input-ctrl" required placeholder="krispo">
+      </div>
+      <div class="field">
+        <label>كلمة المرور</label>
+        <input type="password" id="pass-input" class="input-ctrl" required placeholder="•••••">
+      </div>
+      <button type="submit" class="btn" style="margin-top: 10px;">دخول اللوحة</button>
+    </form>
+  </div>
+</div>
+
+<!-- Main Dashboard Interface -->
+<div class="app-container">
+  <aside>
+    <div class="brand">
+      <img src="./profile.png" alt="Profile" class="brand-img" onerror="this.src='https://placehold.co/100/0ea5e9/ffffff?text=ES'">
+      <div class="brand-info">
+        <h3>إسلام سيد</h3>
+        <span>لوحة إدارة البورتفوليو</span>
+      </div>
+    </div>
+    <nav class="nav-menu">
+      <button class="nav-item active" onclick="switchTab('videos')">
+        🎬 معرض الفيديوهات
+      </button>
+      <button class="nav-item" onclick="switchTab('categories')">
+        📂 أقسام الأعمال
+      </button>
+      <button class="nav-item" onclick="switchTab('profile')">
+        👤 البيانات والاستوديو
+      </button>
+      <button class="nav-item" onclick="switchTab('export')">
+        ⚡ التصدير والتزامن
+      </button>
+    </nav>
+    <button class="btn btn-secondary" onclick="logout()" style="width: 100%; margin-top: auto;">تسجيل الخروج</button>
+  </aside>
+
+  <main class="content">
+    
+    <!-- VIDEOS PANEL -->
+    <section id="panel-videos" class="panel active">
+      <div class="page-header">
+        <div>
+          <h1>إدارة معرض الفيديوهات (My Work)</h1>
+          <p>إضافة، تعديل، وترتيب الفيديوهات المعروضة في الموقع الرسمي</p>
+        </div>
+        <button class="btn" onclick="openVideoModal()">+ إضافة فيديو جديد</button>
+      </div>
+
+      <div class="card-box" style="padding: 16px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <input type="text" id="search-video" class="input-ctrl" placeholder="بحث بالعنوان أو الرابط..." style="flex:1;" oninput="renderVideos()">
+          <select id="filter-cat" class="input-ctrl" onchange="renderVideos()" style="width: 200px;">
+            <option value="all">كل الأقسام</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="video-grid" id="videos-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- CATEGORIES PANEL -->
+    <section id="panel-categories" class="panel">
+      <div class="page-header">
+        <div>
+          <h1>إدارة الأقسام (Categories)</h1>
+          <p>التحكم في تصنيفات الفيديوهات المتاحة في تبويبات الموقع</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>إضافة تصنيف جديد</h3>
+          <form id="add-cat-form" style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="field">
+              <label>معرف القسم (ID - بالإنجليزية)</label>
+              <input type="text" id="cat-id" class="input-ctrl" placeholder="e.g. podcast" required>
+            </div>
+            <div class="field">
+              <label>الاسم بالإنجليزية</label>
+              <input type="text" id="cat-en" class="input-ctrl" placeholder="e.g. Podcasts" required>
+            </div>
+            <div class="field">
+              <label>الاسم بالعربية</label>
+              <input type="text" id="cat-ar" class="input-ctrl" placeholder="مثل: بودكاست" required>
+            </div>
+            <button type="submit" class="btn">+ حفظ القسم</button>
+          </form>
+        </div>
+
+        <div class="card-box">
+          <h3>الأقسام الحالية</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>العربية</th>
+                <th>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="categories-table">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE PANEL -->
+    <section id="panel-profile" class="panel">
+      <div class="page-header">
+        <div>
+          <h1>بيانات الملف الشخصي والاستوديو</h1>
+          <p>تعديل نصوص نبذة عني، معلومات التواصل، ومعدات الصوت</p>
+        </div>
+        <button class="btn" onclick="saveProfileSettings()">حفظ التغيرات</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>المعلومات الأساسية</h3>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="field">
+              <label>الاسم الكامل</label>
+              <input type="text" id="prof-name" class="input-ctrl" value="إسلام سيد">
+            </div>
+            <div class="field">
+              <label>المسمى الوظيفي</label>
+              <input type="text" id="prof-title" class="input-ctrl" value="Voice Actor, Quality Reviewer & Sound Engineer">
+            </div>
+            <div class="field">
+              <label>رقم الواتساب (بالصيغة الدولية)</label>
+              <input type="text" id="prof-wa" class="input-ctrl" value="201125553080">
+            </div>
+            <div class="field">
+              <label>البريد الإلكتروني</label>
+              <input type="email" id="prof-email" class="input-ctrl" value="eslamsameh501@gmail.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <h3>معدات الاستوديو (Studio Setup)</h3>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="field">
+              <label>الميكروفون (Microphone)</label>
+              <input type="text" id="gear-mic" class="input-ctrl" value="Rode NT1 (5th Generation)">
+            </div>
+            <div class="field">
+              <label>المراقبة (Monitoring)</label>
+              <input type="text" id="gear-mon" class="input-ctrl" value="Audio-Technica ATH-M30x">
+            </div>
+            <div class="field">
+              <label>البيئة الصوتية</label>
+              <input type="text" id="gear-env" class="input-ctrl" value="Fully Treated Acoustic Studio & Dedicated Vocal Booth">
+            </div>
+            <div class="field">
+              <label>برنامج الهندسة (DAW)</label>
+              <input type="text" id="gear-daw" class="input-ctrl" value="Adobe Audition">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPORT PANEL -->
+    <section id="panel-export" class="panel">
+      <div class="page-header">
+        <div>
+          <h1>تصدير البيانات وتحديث الموقع (GitHub Sync)</h1>
+          <p>توليد الكود البرمجي المحدث لنسخه أو تحميل ملف index.html جاهز مباشرة</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>نسخ كود JavaScript الفوري</h3>
+          <p style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">انسخ المصفوفات المحدثة وضعها في ملف index.html مباشرة مكان المتغيرات القديمة.</p>
+          <textarea id="js-code-out" class="code-box" readonly></textarea>
+          <button class="btn" style="margin-top: 12px; width: 100%;" onclick="copyJSCode()">نسخ الكود البرمجي</button>
+        </div>
+
+        <div class="card-box">
+          <h3>النسخ الاحتياطي واستخراج الملفات</h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn btn-secondary" onclick="exportJSONBackup()">💾 تصدير نسخة احتياطية (JSON Backup)</button>
+            <label class="btn btn-secondary" style="cursor: pointer; text-align: center;">
+              📂 استيراد نسخة احتياطية (JSON)
+              <input type="file" id="import-json-file" accept=".json" onchange="importJSONBackup(event)" style="display:none;">
+            </label>
+            <hr style="border-color: var(--border); margin: 10px 0;">
+            <button class="btn" onclick="downloadIndexHTML()">🚀 تحميل ملف index.html المحدث بالكامل</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Add/Edit Video Modal -->
+<div id="video-modal" class="modal">
+  <div class="modal-content">
+    <h3 id="modal-v-title" style="margin-bottom: 16px; color: var(--cy2);">إضافة فيديو جديد</h3>
+    <form id="video-form" style="display: flex; flex-direction: column; gap: 14px;">
+      <input type="hidden" id="v-edit-index" value="-1">
+      
+      <div class="field">
+        <label>رابط الفيديو على يوتيوب (YouTube URL / Shorts)</label>
+        <input type="url" id="v-url" class="input-ctrl" placeholder="https://youtu.be/..." required oninput="previewVideoThumb()">
+      </div>
+
+      <div id="v-thumb-preview" style="display:none; aspect-ratio:16/9; background:#000; border-radius:10px; overflow:hidden;">
+        <img id="v-thumb-img" src="" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+
+      <div class="field">
+        <label>عنوان الفيديو (عربي)</label>
+        <input type="text" id="v-title-ar" class="input-ctrl" placeholder="أدخل العنوان العربي..." required>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>القسم (Category)</label>
+          <select id="v-cat" class="input-ctrl" required></select>
+        </div>
+
+        <div class="field">
+          <label>الشارة بالعربية (Badge AR)</label>
+          <input type="text" id="v-badge-ar" class="input-ctrl" placeholder="مثال: نموذج إعلاني" required>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>الوسم بالعربية (Tag AR)</label>
+          <input type="text" id="v-tag-ar" class="input-ctrl" placeholder="مثال: رسمي وواثق" required>
+        </div>
+        <div class="field">
+          <label>الوسم بالإنجليزية (Tag EN)</label>
+          <input type="text" id="v-tag-en" class="input-ctrl" placeholder="e.g. Authoritative" required>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button type="submit" class="btn" style="flex: 1;">حفظ الفيديو</button>
+        <button type="button" class="btn btn-secondary" onclick="closeVideoModal()">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Authentication State Management
+const AUTH_KEY = 'es_admin_auth';
+
+document.getElementById('login-form').onsubmit = function(e) {
+  e.preventDefault();
+  const u = document.getElementById('user-input').value.trim();
+  const p = document.getElementById('pass-input').value.trim();
+
+  if(u === 'krispo' && p === '01155') {
+    sessionStorage.setItem(AUTH_KEY, 'true');
+    document.getElementById('login-modal').style.display = 'none';
+    showToast('تم تسجيل الدخول بنجاح!', 'success');
+  } else {
+    showToast('بيانات الدخول غير صحيحة!', 'danger');
+  }
+};
+
+function checkAuth() {
+  if(sessionStorage.getItem(AUTH_KEY) === 'true') {
+    document.getElementById('login-modal').style.display = 'none';
+  }
+}
+function logout() {
+  sessionStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+// Initial Core Data Arrays
+let T = [
+  ["ads", "Commercials & ADs", "إعلانات"],
+  ["creator", "Creator Dubbing", "دبلجة صنّاع المحتوى"],
+  ["anim", "Animation & Series", "أنيميشن ومسلسلات"],
+  ["doc", "Documentary & Science", "وثائقي وعلوم"]
+];
+
+let W = [
+  ["ads", "https://www.youtube.com/watch?v=aT4uLH6K7_k", "نقدم لكم الجديدة كلياً لاند كروزر إف جيه اداء حماسي فخم", ["Official Commercial", "إعلان رسمي"], [["Authoritative", "رسمي وواثق"]]],
+  ["ads", "https://youtu.be/0jfWBDaq_Wg", "تجربة اداء لاعلان ماندولين اداء كوميدي", ["Commercial Spec", "نموذج إعلاني"], [["Upbeat & Comedy", "حماسي وكوميدي"]]],
+  ["ads", "https://youtu.be/Yx_UHZeRwNY", "ebi تجربة اداء (اداء عميق و مؤثر )", ["Commercial Spec", "نموذج إعلاني"], [["Deep & Emotional", "عميق ومؤثر"]]],
+  ["ads", "https://youtu.be/E3HsLIEE5iU", "تجربة اداء easy orders اداء اعلاني تفصيلي", ["Commercial Spec", "نموذج إعلاني"], [["Fast Egyptian", "عامية سريعة"]]],
+  ["ads", "https://youtu.be/NJ8qZnMGU5M", "من قلب مصر بدأ طعم الحكاية (كشري التحرير) غير رسمي اداء رسمي دافئ", ["Commercial Spec", "نموذج إعلاني"], [["Warm & Formal", "رسمي ودافئ"]]],
+  ["creator", "https://youtu.be/1SyKE7oFY98", "ksi : أضحكنا، واربح 1,000 دولار (Ft. MrBeast)", ["Lead Voice", "صوت رئيسي"], [["Lead Arabic Track", "المسار العربي الرئيسي"]]],
+  ["creator", "https://youtu.be/pe5dIbtNhps", "westen champlin : لقد قمت بشحن سيارتي دودج تشارجر موديل 1968....هل ستبقى على قيد الحياة؟", ["Creator Dubbing", "دبلجة صانع محتوى"], [["Lead Arabic Track", "المسار العربي الرئيسي"]]],
+  ["creator", "https://youtu.be/deUlzDNmcag", "the royalty family : مفاجأة عيد الميلاد التي حلم بها ابننا!", ["Creator Dubbing", "دبلجة صانع محتوى"], [["Lead Arabic Track", "المسار العربي الرئيسي"]]],
+  ["creator", "https://youtu.be/AzJQTvsM30c", "john nellis : إرلينغ هالاند يفاجئ أكبر معجب له", ["Creator Dubbing", "دبلجة صانع محتوى"], [["Lead Arabic Track", "المسار العربي الرئيسي"]]],
+  ["creator", "https://youtu.be/sKGxCHVYAEo", "stay wild reacts : مقاطع تيك توك لا يفهمها سوى الأطفال!", ["Lead Voice", "صوت رئيسي"], [["Lead Arabic Track", "المسار العربي الرئيسي"]]],
+  ["anim", "https://youtu.be/MUnnfChNrlk", "riggy : تون تِرف: الحلقة الأولى", ["Animation", "أنيميشن"], [["Cartoon & Dubbing", "كرتوني ودبلجة"]]],
+  ["anim", "https://youtu.be/viqacPifHtI", "studio psycho : أبطال ولكن... (الحلقة الأولى)", ["Series Dubbing", "دبلجة مسلسل"], [["Character Dubbing", "دبلجة شخصيات"]]],
+  ["doc", "https://youtu.be/TrCjgxcYg1c", "veritasium : داخل حوض اختبار السفن التابع للبحرية", ["Science & Tech", "علوم وتكنولوجيا"], [["Documentary", "وثائقي"]]],
+  ["doc", "https://youtu.be/O1vrRNmTZkY", "forrest galante : لمَ لا يعبر أي طير أو سمكة أو حيوان ثديي هذا الخط الخفي", ["Nature & Science", "طبيعة وعلوم"], [["Documentary", "وثائقي"]]]
+];
+
+// Helper: Extract Video ID
+function getVidId(u) {
+  let m = u.match(/(?:v=|youtu\.be\/|shorts\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
+// UI Navigation
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  
+  event.currentTarget.classList.add('active');
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  
+  if(tabId === 'export') generateExportCode();
+}
+
+// Render Videos
+function renderVideos() {
+  const container = document.getElementById('videos-container');
+  const query = document.getElementById('search-video').value.toLowerCase();
+  const catFilter = document.getElementById('filter-cat').value;
+  
+  container.innerHTML = '';
+
+  W.forEach((v, index) => {
+    const [cat, url, title, badge, tags] = v;
+    
+    if(catFilter !== 'all' && cat !== catFilter) return;
+    if(query && !title.toLowerCase().includes(query) && !url.toLowerCase().includes(query)) return;
+
+    const vidId = getVidId(url);
+    const thumbUrl = vidId ? `https://img.youtube.com/vi/${vidId}/hqdefault.jpg` : 'https://placehold.co/400x225/0b1320/0ea5e9?text=No+Preview';
+
+    const card = document.createElement('div');
+    card.className = 'v-card';
+    card.innerHTML = `
+      <div class="v-thumb">
+        <img src="${thumbUrl}" alt="Thumbnail" loading="lazy">
+      </div>
+      <div class="v-body">
+        <span class="v-badge">${badge[1] || badge[0]}</span>
+        <div class="v-title">${title}</div>
+        <div class="v-tags">
+          ${tags.map(t => `<span class="v-tag">${t[1] || t[0]}</span>`).join('')}
+        </div>
+        <div class="v-actions">
+          <button class="btn btn-secondary" onclick="editVideo(${index})">تعديل</button>
+          <button class="btn btn-danger" onclick="deleteVideo(${index})">حذف</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Populate Categories Select Options
+function updateCategorySelects() {
+  const filterSelect = document.getElementById('filter-cat');
+  const formSelect = document.getElementById('v-cat');
+  
+  filterSelect.innerHTML = '<option value="all">كل الأقسام</option>';
+  formSelect.innerHTML = '';
+
+  T.forEach(c => {
+    filterSelect.innerHTML += `<option value="${c[0]}">${c[2]} (${c[1]})</option>`;
+    formSelect.innerHTML += `<option value="${c[0]}">${c[2]} (${c[1]})</option>`;
+  });
+}
+
+// Modal Handlers
+function openVideoModal(editIndex = -1) {
+  document.getElementById('v-edit-index').value = editIndex;
+  const form = document.getElementById('video-form');
+  
+  if(editIndex >= 0) {
+    const item = W[editIndex];
+    document.getElementById('modal-v-title').textContent = 'تعديل بيانات الفيديو';
+    document.getElementById('v-url').value = item[1];
+    document.getElementById('v-title-ar').value = item[2];
+    document.getElementById('v-cat').value = item[0];
+    document.getElementById('v-badge-ar').value = item[3][1] || item[3][0];
+    document.getElementById('v-tag-ar').value = item[4][0][1] || item[4][0][0];
+    document.getElementById('v-tag-en').value = item[4][0][0];
+    previewVideoThumb();
+  } else {
+    document.getElementById('modal-v-title').textContent = 'إضافة فيديو جديد';
+    form.reset();
+    document.getElementById('v-thumb-preview').style.display = 'none';
+  }
+
+  document.getElementById('video-modal').classList.add('on');
+}
+
+function closeVideoModal() {
+  document.getElementById('video-modal').classList.remove('on');
+}
+
+function previewVideoThumb() {
+  const u = document.getElementById('v-url').value;
+  const id = getVidId(u);
+  const prevBox = document.getElementById('v-thumb-preview');
+  const img = document.getElementById('v-thumb-img');
+
+  if(id) {
+    img.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    prevBox.style.display = 'block';
+  } else {
+    prevBox.style.display = 'none';
+  }
+}
+
+// Video CRUD
+document.getElementById('video-form').onsubmit = function(e) {
+  e.preventDefault();
+  const idx = parseInt(document.getElementById('v-edit-index').value);
+  
+  const cat = document.getElementById('v-cat').value;
+  const url = document.getElementById('v-url').value.trim();
+  const title = document.getElementById('v-title-ar').value.trim();
+  const badgeAr = document.getElementById('v-badge-ar').value.trim();
+  const tagAr = document.getElementById('v-tag-ar').value.trim();
+  const tagEn = document.getElementById('v-tag-en').value.trim();
+
+  const newItem = [
+    cat,
+    url,
+    title,
+    [badgeAr, badgeAr],
+    [[tagEn, tagAr]]
+  ];
+
+  if(idx >= 0) {
+    W[idx] = newItem;
+    showToast('تم تحديث الفيديو بنجاح', 'success');
+  } else {
+    W.unshift(newItem);
+    showToast('تمت إضافة الفيديو بنجاح', 'success');
+  }
+
+  closeVideoModal();
+  renderVideos();
+};
+
+function editVideo(index) {
+  openVideoModal(index);
+}
+
+function deleteVideo(index) {
+  if(confirm('هل أنت تأكد من رغبتك في حذف هذا الفيديو من المعرض؟')) {
+    W.splice(index, 1);
+    showToast('تم حذف الفيديو', 'danger');
+    renderVideos();
+  }
+}
+
+// Render Categories Table
+function renderCategories() {
+  const tbody = document.getElementById('categories-table');
+  tbody.innerHTML = '';
+
+  T.forEach((c, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td><code>${c[0]}</code></td>
+        <td>${c[2]}</td>
+        <td>
+          <button class="btn btn-danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteCategory(${idx})">حذف</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+// Category CRUD
+document.getElementById('add-cat-form').onsubmit = function(e) {
+  e.preventDefault();
+  const id = document.getElementById('cat-id').value.trim().toLowerCase();
+  const en = document.getElementById('cat-en').value.trim();
+  const ar = document.getElementById('cat-ar').value.trim();
+
+  if(T.some(c => c[0] === id)) {
+    showToast('معرف القسم موجود بالفعل!', 'danger');
+    return;
+  }
+
+  T.push([id, en, ar]);
+  showToast('تمت إضافة القسم الجديد', 'success');
+  this.reset();
+  updateCategorySelects();
+  renderCategories();
+};
+
+function deleteCategory(index) {
+  if(T.length <= 1) {
+    showToast('يجب إبقاء قسم واحد على الأقل!', 'danger');
+    return;
+  }
+  if(confirm('سيتم حذف هذا القسم، هل تريد المتابعة؟')) {
+    T.splice(index, 1);
+    showToast('تم حذف القسم', 'danger');
+    updateCategorySelects();
+    renderCategories();
+  }
+}
+
+// Profile Save
+function saveProfileSettings() {
+  showToast('تم حفظ إعدادات البيانات الشخصية!', 'success');
+}
+
+// Export Code Generators
+function generateExportCode() {
+  const code = `var T = ${JSON.stringify(T, null, 2)};\n\nvar W = ${JSON.stringify(W, null, 2)};`;
+  document.getElementById('js-code-out').value = code;
+}
+
+function copyJSCode() {
+  generateExportCode();
+  const textarea = document.getElementById('js-code-out');
+  textarea.select();
+  document.execCommand('copy');
+  showToast('تم نسخ الكود البرمجي بنجاح!', 'success');
+}
+
+function exportJSONBackup() {
+  const data = { T, W };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `portfolio-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  showToast('تم تصدير النسخة الاحتياطية', 'success');
+}
+
+function importJSONBackup(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(parsed.T && parsed.W) {
+        T = parsed.T;
+        W = parsed.W;
+        updateCategorySelects();
+        renderVideos();
+        renderCategories();
+        showToast('تمت استعادة البيانات بنجاح!', 'success');
+      }
+    } catch(err) {
+      showToast('ملف JSON غير صالحة!', 'danger');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function downloadIndexHTML() {
+  const code = generateExportCode();
+  showToast('جار تحضير وتنزيل ملف index.html المحدث...', 'success');
+  
+  const fullHtml = `<!-- Updated via Admin Panel -->\n<script>\n${code}\n<\/script>`;
+  const blob = new Blob([fullHtml], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'updated-data.js';
+  a.click();
+}
+
+// Toast Helper
+function showToast(msg, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// App Initialization
+window.onload = function() {
+  checkAuth();
+  updateCategorySelects();
+  renderVideos();
+  renderCategories();
+};
+</script>
+</body>
+</html>
